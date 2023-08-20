@@ -54,6 +54,18 @@ addItem = (e,item) => {
   }
   this.setState({...this.state, groceries : [...this.state.groceries, newItem]})
 }
+toggleItem = itemId => {
+ this.setState({...this.state, groceries : this.state.groceries.map(item => {
+  if (itemId === item.id) {
+    return {...item, purchased : !item.purchased}
+  } 
+  return item; 
+ })}) 
+}
+  clear = e => {
+  e.preventDefault();
+  this.setState({...this.state, groceries : this.state.groceries.filter(item => !item.purchased)})
+}
   render() {
     return (
       <div className="App">
@@ -61,8 +73,9 @@ addItem = (e,item) => {
            <h1>Shopping List</h1>
            <ListForm addItem = {this.addItem}/>
          </div>
-        <GroceryList groceries={this.state.groceries} />
-        <button className="clear-btn">Clear Purchased</button>
+        <GroceryList groceries={this.state.groceries}
+         toggleItem = {this.toggleItem}/>
+        <button onClick={this.clear} className="clear-btn">Clear Purchased</button>
        </div>
     );
   }
